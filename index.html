@@ -81,8 +81,14 @@ small{color:#6b8593;display:block;margin-top:4px}
   </div>
 
   <div class="card">
-    <label for="files">الشواهد (صور اختيارية، يمكن اختيار أكثر من صورة)</label>
-    <input id="files" type="file" accept="image/*" multiple>
+    <label>الشواهد الاختيارية</label>
+    <div id="witnesses"></div>
+    <button class="ghost" type="button" id="addWitness" style="margin-top:8px">＋ إضافة شاهد اختياري</button>
+    <small>يمكن إضافة أكثر من شاهد اختياري أو تركها فارغة.</small>
+    <div style="margin-top:12px">
+      <label for="files">صور الشواهد (اختيارية، يمكن اختيار أكثر من صورة)</label>
+      <input id="files" type="file" accept="image/*" multiple>
+    </div>
   </div>
 
   <div class="card">
@@ -106,6 +112,31 @@ mech:"تهيئة الطلاب وتوضيح هدف النشاط.\nتنفيذ ال
 res:"تفاعل الطلاب مع النشاط.\nتحقيق الهدف التعليمي المحدد.\nزيادة دافعية الطلاب.\nتنمية مهارات جديدة.\nمشاركة جماعية فعالة."};
 const TEXT=["teacher","year","semester","grade","week","name","goals","mech","res","extra"];
 const SAVED=["teacher"];
+let witnesses=[];
+function addWitness(value=""){
+  witnesses.push(value);
+  renderWitnesses();
+}
+function removeWitness(i){
+  witnesses.splice(i,1);
+  renderWitnesses();
+}
+function renderWitnesses(){
+  const box=$("witnesses");
+  box.innerHTML=witnesses.map((v,i)=>`<div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+    <input class="witness-input" data-i="${i}" value="${esc(v)}" placeholder="شاهد اختياري ${i+1}">
+    <button class="ghost remove-witness" type="button" data-i="${i}" style="padding:8px 12px">حذف</button>
+  </div>`).join("");
+  box.querySelectorAll(".witness-input").forEach(e=>e.addEventListener("input",()=>{
+    witnesses[Number(e.dataset.i)]=e.value;
+    render();
+  }));
+  box.querySelectorAll(".remove-witness").forEach(e=>e.addEventListener("click",()=>{
+    removeWitness(Number(e.dataset.i));
+    render();
+  }));
+}
+
 const EDU="إدارة تعليم مكة المكرمة",SCHOOL="مدرسة ابن خلدون الابتدائية وخزيمة بن ثابت المتوسطة",PRINCIPAL="الأستاذ صافي اللحياني",LEADER="الأستاذ فواز المقاطي";
 const TEACHERS=["خالد العماري","محمد غالي البشري","متعب المعبدي","فهد السلمي","إبراهيم الحازمي","رامي غازي الحازمي","عبدالله اللحياني","عدنان جمعة الصبحي","ياسر نويمي العتيبي","عبدالمجيد غازي العتيبي","سلطان الجريبي","محمد حمود المجنوني","طلال حامد المجنوني","بدر ثابت الحربي","عبدالرحمن هاشم الصعب","أحمد الفهمي","نايف الفاهمي","مجدي حميد الخطابي","فواز مطر العتيبي","أحمد بخيت الحربي"];
 const ORD=["الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الحادي عشر","الثاني عشر","الثالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر"];
@@ -196,6 +227,8 @@ function render(){
   const v=k=>esc($(k).value.trim());const prog=esc($("program").value==="__other"?$("progOther").value.trim():$("program").value);
   const means=[...document.querySelectorAll("[data-m]")].filter(c=>c.checked).map(c=>MEANS[c.dataset.m]);
   if($("extra").value.trim())means.push($("extra").value.trim());
+  const witnessItems=witnesses.map(x=>x.trim()).filter(Boolean);
+  const witnessHtml=witnessItems.length?`<div class="box"><b>الشواهد الاختيارية</b><ol style="margin:0;padding-inline-start:26px;text-align:right;line-height:1.75">${witnessItems.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>`:"";
   const n=images.length,cols=n<=1?1:n<=4?2:3,rows=Math.ceil(n/cols)||1;
   const ev=n?`<div class="ev"><div class="box"><b>الشواهد</b><div class="evg" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">${images.map(s=>`<div><img src="${s}" alt=""></div>`).join("")}</div></div></div>`:`<div class="ev"></div>`;
   $("sheet").innerHTML=`
@@ -207,6 +240,7 @@ function render(){
     <div class="box"><b>الهدف من النشاط</b>${ol($("goals").value)}</div>
     <div class="row"><div class="box"><b>آلية التنفيذ</b>${ol($("mech").value)}</div><div class="box"><b>النتائج المحققة</b>${ol($("res").value)}</div></div>
     <div class="box"><b>الوسائل المستخدمة</b><div class="means">${means.map(m=>`<span>${esc(m)}</span>`).join("")}</div></div>
+    ${witnessHtml}
     ${ev}
   </div>
   <div class="sig"><div>المعلم<br>${v("teacher")||"—"}</div><div>رائد النشاط<br>${esc(LEADER)}</div><div>مدير المدرسة<br>${esc(PRINCIPAL)}</div></div>
@@ -224,6 +258,7 @@ $("files").addEventListener("change",async e=>{
   render();
 });
 const msg=t=>{$("msg").textContent=t};
+$("addWitness").onclick=()=>{addWitness();render();};
 $("save").onclick=()=>{try{const o={};SAVED.forEach(k=>o[k]=$(k).value);localStorage.setItem("rep73",JSON.stringify(o));msg("تم الحفظ على هذا الجهاز.")}catch(e){msg("تعذّر الحفظ في هذا المتصفح.")}};
 $("link").onclick=async()=>{
   const p=new URLSearchParams();["teacher","year","semester","grade","week"].forEach(k=>{if($(k).value)p.set(k,$(k).value)});
