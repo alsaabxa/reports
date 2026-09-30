@@ -52,7 +52,7 @@ small{color:#6b8593;display:block;margin-top:4px}
 </head>
 <body>
 <div class="panel">
-  <h1>تقرير تنفيذ نشاط صفي</h1>
+  <h1>تقرير تنفيذ نشاط صفي</h1><div style="text-align:center;font-size:15px;font-weight:700;margin:-4px 0 14px;color:var(--navy)">خاص بمدرسة ابن خلدون الابتدائية و خزيمة بن ثابت المتوسطة<br><span style="font-weight:500;font-size:14px">إعداد الأستاذ عبدالرحمن الصعب</span></div>
   <div class="card"><div class="grid">
     <div><label for="teacher">اسم المعلم</label><select id="teacher"></select></div>
     <div><label for="grade">الصف</label><select id="grade"></select></div>
@@ -137,7 +137,7 @@ function renderWitnesses(){
   }));
 }
 
-const EDU="إدارة تعليم مكة المكرمة",SCHOOL="مدرسة ابن خلدون الابتدائية وخزيمة بن ثابت المتوسطة",PRINCIPAL="الأستاذ صافي اللحياني",LEADER="الأستاذ فواز المقاطي";
+const EDU="إدارة تعليم مكة المكرمة",SCHOOL="مدرسة ابن خلدون الابتدائية و خزيمة بن ثابت المتوسطة",AUTHOR="الأستاذ عبدالرحمن الصعب",PRINCIPAL="الأستاذ صافي اللحياني",LEADER="الأستاذ فواز المقاطي";
 const TEACHERS=["خالد العماري","محمد غالي البشري","متعب المعبدي","فهد السلمي","إبراهيم الحازمي","رامي غازي الحازمي","عبدالله اللحياني","عدنان جمعة الصبحي","ياسر نويمي العتيبي","عبدالمجيد غازي العتيبي","سلطان الجريبي","محمد حمود المجنوني","طلال حامد المجنوني","بدر ثابت الحربي","عبدالرحمن هاشم الصعب","أحمد الفهمي","نايف الفاهمي","مجدي حميد الخطابي","فواز مطر العتيبي","أحمد بخيت الحربي"];
 const ORD=["الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الحادي عشر","الثاني عشر","الثالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر"];
 const opt=a=>a.map(x=>`<option>${x}</option>`).join("");
@@ -244,7 +244,7 @@ function render(){
     ${ev}
   </div>
   <div class="sig"><div>المعلم<br>${v("teacher")||"—"}</div><div>رائد النشاط<br>${esc(LEADER)}</div><div>مدير المدرسة<br>${esc(PRINCIPAL)}</div></div>
-  <div class="ft">${esc(SCHOOL)}</div>`;
+  <div class="ft">${esc(SCHOOL)}<span style="float:left">إعداد ${esc(AUTHOR)}</span></div>`;
   fit();
 }
 function fit(){
