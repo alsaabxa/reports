@@ -1,151 +1,22 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>تقرير تنفيذ نشاط صفي</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap">
-<style>
-:root{--bg:#eef3f6;--card:#fff;--ink:#16303d;--line:#c9d8e0;--navy:#16445a;--green:#12a679;--blue:#2a86b8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a20;--card:#182830;--ink:#e6eef2;--line:#2c4450}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Tajawal',Tahoma,sans-serif}
-.panel{max-width:820px;margin:0 auto;padding:16px}
-.panel h1{font-size:20px;margin:4px 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px}
-label{display:block;font-size:13px;font-weight:500;margin-bottom:4px}
-input,select,textarea{width:100%;font:inherit;font-size:15px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
-textarea{min-height:96px;resize:vertical}
-.checks{display:flex;flex-wrap:wrap;gap:8px 16px}
-.checks label{display:flex;gap:6px;align-items:center;margin:0;font-size:14px}
-.checks input{width:auto}
-.btns{display:flex;flex-wrap:wrap;gap:8px}
-button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer}
-button.alt{background:var(--green)}button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:1px}
-small{color:#6b8593;display:block;margin-top:4px}
-#msg{min-height:20px;font-size:14px;color:var(--green)}
-.preview-wrap{overflow:hidden;margin:0 auto}
-#sheet{width:794px;height:1123px;background:#fff;color:#1c2b33;position:relative;display:flex;flex-direction:column;transform-origin:top right;overflow:hidden}
-.hd{background:var(--navy);height:150px;border-radius:0 0 40px 40px;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 50px;position:relative;border-top:6px solid #2b8dc1;flex:none}
-.hd::before{content:"";position:absolute;top:-6px;left:0;right:0;height:6px;background:linear-gradient(90deg,#2b86c5,#3fb98a)}
-.hd .t{font-size:15px;line-height:1.5;text-align:center;min-width:150px}.hd .t:first-child{max-width:270px}
-.ttl{position:absolute;top:130px;left:50%;transform:translateX(-50%);background:var(--navy);border-bottom:4px solid #3fb98a;border-radius:0 0 14px 14px;padding:14px 26px;font-size:22px;font-weight:700;color:#fff;white-space:nowrap;border-inline:1px solid #2b8dc1}
-.body{padding:62px 34px 0;flex:1;display:flex;flex-direction:column;gap:14px;min-height:0}
-.row{display:flex;gap:14px}.row>*{flex:1}
-.box{border:1.5px solid var(--blue);border-bottom-color:#3fb98a;border-radius:10px;position:relative;padding:14px 16px 8px;min-height:40px;font-size:15px;text-align:center;margin-top:10px}
-.box>b{position:absolute;top:-13px;right:14px;background:#fff;padding:0 10px;color:var(--green);font-weight:500;font-size:16px}
-.box ol{margin:0;padding-inline-start:26px;text-align:right;list-style:arabic-indic;line-height:1.75}
-.means{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;font-size:14.5px}
-.means span::before{content:"✓ ";color:var(--green);font-weight:700}
-.ev{flex:1;min-height:0;display:flex;flex-direction:column;break-inside:avoid}
-.ev .box{flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 12px 12px;overflow:hidden}
-.evg{display:grid;gap:9px;width:100%;height:100%;flex:1;min-height:0;align-content:stretch}
-.evg div{min-height:0;min-width:0;display:flex;align-items:center;justify-content:center;padding:5px;border:1px solid #d7e3e9;border-radius:8px;overflow:hidden;background:#f7fafc}
-.evg img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;display:block}
-.sig{display:flex;gap:14px;padding:0 34px 14px;flex:none}
-.sig div{flex:1;text-align:center;font-size:15px;line-height:1.6;border-bottom:1px solid #dde4e8;padding-bottom:6px;min-height:52px}
-.ft{background:var(--navy);color:#fff;font-size:14px;padding:11px 26px;flex:none;direction:rtl}
-@media print{.panel{display:none}}
-</style>
-</head>
-<body>
-<div class="panel">
-  <h1>تقرير تنفيذ نشاط صفي</h1><div style="text-align:center;margin:-2px 0 16px;padding:10px 14px;border-radius:12px;background:#f4fbff;border:1px solid #b9dce9;color:#16445a;font-size:16px;font-weight:800;line-height:1.9">خاص بمدرسة ابن خلدون الابتدائية و خزيمة بن ثابت المتوسطة<br><span style="display:inline-block;margin-top:2px;font-size:17px;font-weight:800;color:#c48a00;text-shadow:0 1px 1px rgba(0,0,0,.08)">✦ إعداد الأستاذ عبدالرحمن الصعب ✦</span></div>
-  <div class="card"><div class="grid">
-    <div><label for="teacher">اسم المعلم</label><select id="teacher"></select></div>
-    <div><label for="grade">الصف</label><select id="grade"></select></div>
-    <div><label for="week">الأسبوع</label><select id="week"></select></div>
-    <div><label for="semester">الفصل الدراسي</label><select id="semester"><option>الفصل الدراسي الأول</option><option>الفصل الدراسي الثاني</option><option>الفصل الدراسي الثالث</option></select></div>
-    <div><label for="year">العام الدراسي</label><input id="year" value="١٤٤٨هـ"></div>
-    <div><label for="domain">اسم المجال</label><select id="domain"></select></div>
-    <div><label for="program">البرنامج</label><select id="program"></select><input id="progOther" placeholder="اكتب اسم البرنامج" style="display:none;margin-top:6px"></div>
-    <div><label for="name">اسم النشاط</label><input id="name" placeholder="اسم النشاط"></div>
-  </div>
-  <button class="ghost" style="margin-top:10px" id="save">حفظ اسمي على هذا الجهاز</button>
-  <small>يُحفظ اسم المعلم فقط ويُعبَّأ تلقائيًا في الزيارة القادمة.</small></div>
-
-  <div class="card">
-    <label for="goals">الهدف من النشاط (كل سطر بند؛ تُقترح الأهداف والآلية والنتائج تلقائيًا عند اختيار البرنامج ويمكن تعديلها)</label><textarea id="goals"></textarea>
-    <div class="grid" style="margin-top:10px">
-      <div><label for="mech">آلية التنفيذ</label><textarea id="mech"></textarea></div>
-      <div><label for="res">النتائج المحققة</label><textarea id="res"></textarea></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <label>الوسائل المستخدمة</label>
-    <div class="checks" id="meansBox"></div>
-    <label for="extra" style="margin-top:10px">وسيلة أخرى (اختياري)</label><input id="extra">
-  </div>
-
-  <div class="card">
-    <label>الشواهد الاختيارية</label>
-    <div id="witnesses"></div>
-    <button class="ghost" type="button" id="addWitness" style="margin-top:8px">＋ إضافة شاهد اختياري</button>
-    <small>يمكن إضافة أكثر من شاهد اختياري أو تركها فارغة.</small>
-    <div style="margin-top:12px">
-      <label for="files">صور الشواهد (اختيارية، يمكن اختيار أكثر من صورة)</label>
-      <input id="files" type="file" accept="image/*" multiple>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="btns">
-      <button id="pdf">تحميل PDF</button>
-      <button class="alt" id="png">تحميل صورة PNG</button>
-      <button class="ghost" id="link">نسخ رابط مُعبّأ مسبقًا</button>
-    </div>
-    <div id="msg" role="status"></div>
-  </div>
-  <div class="preview-wrap" id="pw"><div id="sheet"></div></div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-const $=id=>document.getElementById(id);
-const MEANS=["عرض الشرائح","فيديو تعليمي / توعوي","أوراق عمل","أنشطة عملية / تجارب","حوار ومناقشة جماعية","مسابقات وألعاب تعليمية","ملصقات أو مطويات"];
-const DEF={goals:"تنمية المهارات الاجتماعية.\nتعزيز القيم الإسلامية والوطنية.\nتنمية التفكير الناقد والإبداعي.\nتعزيز روح التعاون والعمل الجماعي.\nتنمية وتعزيز الصحة النفسية.",
-mech:"تهيئة الطلاب وتوضيح هدف النشاط.\nتنفيذ النشاط عبر مجموعات عمل تعاونية.\nعرض النتائج ومناقشتها وتقويم الأداء.",
-res:"تفاعل الطلاب مع النشاط.\nتحقيق الهدف التعليمي المحدد.\nزيادة دافعية الطلاب.\nتنمية مهارات جديدة.\nمشاركة جماعية فعالة."};
-const TEXT=["teacher","year","semester","grade","week","name","goals","mech","res","extra"];
-const SAVED=["teacher"];
-let witnesses=[];
-function addWitness(value=""){
-  witnesses.push(value);
-  renderWitnesses();
-}
-function removeWitness(i){
-  witnesses.splice(i,1);
-  renderWitnesses();
-}
-function renderWitnesses(){
-  const box=$("witnesses");
-  box.innerHTML=witnesses.map((v,i)=>`<div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-    <input class="witness-input" data-i="${i}" value="${esc(v)}" placeholder="شاهد اختياري ${i+1}">
-    <button class="ghost remove-witness" type="button" data-i="${i}" style="padding:8px 12px">حذف</button>
-  </div>`).join("");
-  box.querySelectorAll(".witness-input").forEach(e=>e.addEventListener("input",()=>{
-    witnesses[Number(e.dataset.i)]=e.value;
-    render();
-  }));
-  box.querySelectorAll(".remove-witness").forEach(e=>e.addEventListener("click",()=>{
-    removeWitness(Number(e.dataset.i));
-    render();
-  }));
-}
-
-const EDU="إدارة تعليم مكة المكرمة",SCHOOL="مدرسة ابن خلدون الابتدائية و خزيمة بن ثابت المتوسطة",PRINCIPAL="الأستاذ صافي اللحياني",LEADER="الأستاذ فواز المقاطي";
-const TEACHERS=["خالد العماري","محمد غالي البشري","متعب المعبدي","فهد السلمي","إبراهيم الحازمي","رامي غازي الحازمي","عبدالله اللحياني","عدنان جمعة الصبحي","ياسر نويمي العتيبي","عبدالمجيد غازي العتيبي","سلطان الجريبي","محمد حمود المجنوني","طلال حامد المجنوني","بدر ثابت الحربي","عبدالرحمن هاشم الصعب","أحمد الفهمي","نايف الفاهمي","مجدي حميد الخطابي","فواز مطر العتيبي","أحمد بخيت الحربي"];
-const ORD=["الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الحادي عشر","الثاني عشر","الثالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر"];
-const opt=a=>a.map(x=>`<option>${x}</option>`).join("");
-$("teacher").innerHTML='<option value="">اختر اسمك</option>'+opt(TEACHERS);
-$("grade").innerHTML=opt(ORD.slice(0,6).map(x=>x+" الابتدائي").concat(ORD.slice(0,3).map(x=>x+" المتوسط")));
-$("week").innerHTML=opt(ORD.map(x=>"الأسبوع "+x));
-$("grade").value="الرابع الابتدائي";$("week").value="الأسبوع السابع";
-const DOMAINS={
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>بطاقة تنفيذ برنامج نشاط طلابي</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"><style>
+*{box-sizing:border-box}body{font-family:Tajawal,Tahoma,sans-serif;background:#edf4f6;color:#173d49;margin:0}main{max-width:900px;margin:auto;padding:18px}.card{background:white;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px #1232}h1{font-size:24px;text-align:center}h2{font-size:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}label{display:block;font-weight:700;font-size:14px;margin-bottom:5px}input,select,textarea{width:100%;font:inherit;border:1px solid #b9ced3;border-radius:7px;padding:9px;background:white}textarea{min-height:70px}button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:11px 16px;background:#17627b;color:white;cursor:pointer;margin:4px}button.secondary{background:#2d8c70}.hint{font-size:13px;color:#526a71}#signature{touch-action:none;background:white;border:1px dashed #8aaebc;border-radius:8px;width:100%;height:145px;display:block}.preview{overflow:auto}#paper{width:794px;min-height:1123px;background:white;margin:0 auto;padding:30px 45px;color:#12424e;font-size:17px}.paper-head{display:flex;justify-content:space-between;align-items:start;height:98px}.ministry{line-height:1.6;font-size:14px;text-align:right;color:#111}.logo{font-size:22px;font-weight:800;color:#39a6a5;letter-spacing:1px}.paper-title{text-align:center;font-size:23px;font-weight:800;margin:0 0 14px}.report{border-collapse:collapse;width:100%;table-layout:fixed}.report td{border:1.5px solid #195569;padding:8px 10px;vertical-align:middle;height:39px}.report .key{width:29%;text-align:center;background:#cfe3e8;font-weight:800}.report .value{overflow-wrap:anywhere;color:#183a46}.report .tall td{height:67px}.dates{display:flex;gap:10px;justify-content:space-between;font-size:15px}.dates span{white-space:nowrap}.signatures{display:flex;justify-content:space-between;margin-top:16px;gap:20px;color:#12424e}.signatures>div{width:48%;line-height:1.8;font-size:15px}.sig-image{display:inline-block;width:150px;height:56px;object-fit:contain;vertical-align:middle}.footnote{font-size:12px;margin-top:12px;line-height:1.6}.footer{border-top:5px solid #2c9da5;margin-top:12px;text-align:center;font-size:12px;padding:8px}.checks-inline{display:flex;gap:10px;flex-wrap:wrap}.checks-inline label{font-weight:400}.checks-inline input{width:auto}.signature-line{min-height:60px} @media(max-width:650px){main{padding:8px}.card{padding:12px}.preview{margin:0 -12px}}@media print{body{background:white}main>h1,.card,.preview>h2{display:none!important}main{padding:0;max-width:none}.preview{overflow:visible}#paper{width:210mm;height:297mm;min-height:0;padding:9mm 12mm;margin:0;box-shadow:none} @page{size:A4;margin:0}}
+</style></head><body><main><h1>بطاقة تنفيذ برنامج نشاط طلابي</h1><div class="card"><p class="hint">مدرسة ابن خلدون الابتدائية وخزيمة بن ثابت المتوسطة — إعداد الأستاذ عبدالرحمن الصعب</p><div class="grid">
+<div><label>اسم المعلم/ة المنفذ/ة</label><select id="teacher"></select></div><div><label>الصف</label><select id="grade"></select></div><div><label>الفصل الدراسي</label><select id="semester"><option value="1">الفصل الدراسي الأول</option><option value="2">الفصل الدراسي الثاني</option></select></div><div><label>الأسبوع الدراسي</label><select id="week"></select></div>
+<div><label>المجال</label><select id="domain"></select></div><div><label>اسم البرنامج</label><select id="program"></select><input id="otherProgram" placeholder="اسم برنامج آخر" style="display:none;margin-top:5px"></div><div><label>عدد حصص البرنامج</label><input id="lessons" type="number" min="0"></div><div><label>عدد الطلبة المشاركين</label><input id="students" type="number" min="0"></div><div><label>عدد الطلبة المشاركين من ذوي الإعاقة</label><input id="disability" type="number" min="0"></div><div><label>عدد أولياء الأمور المشاركين</label><input id="parents" type="number" min="0"></div><div><label>عدد الشراكات المجتمعية</label><input id="partners" type="number" min="0"></div><div><label>أسماء الشراكات المجتمعية</label><input id="partnerNames"></div></div></div>
+<div class="card"><h2>تواريخ التنفيذ الهجرية</h2><p class="hint">يُحدد الأسبوع وفق تقويم مكة وجدة والطائف للعام 1448–1449هـ. يمكن تعديل التواريخ لتوافق يوم التنفيذ الفعلي.</p><div class="grid"><div><label>يوم البداية</label><select id="startDay"></select></div><div><label>تاريخ البداية (هجري)</label><input id="startDate" placeholder="١٤٤٨/٠٣/٠١"></div><div><label>يوم النهاية</label><select id="endDay"></select></div><div><label>تاريخ النهاية (هجري)</label><input id="endDate" placeholder="١٤٤٨/٠٣/٠٥"></div></div></div>
+<div class="card"><h2>مشاركة أولياء الأمور عبر مدرستي</h2><div class="checks-inline" id="icons"></div><h2>ملاحظات</h2><textarea id="notes"></textarea></div>
+<div class="card"><h2>توقيع المعلم/ة باللون الأزرق</h2><canvas id="signature"></canvas><button type="button" id="clearSignature">مسح التوقيع</button><p class="hint">يمكن التوقيع بالإصبع أو القلم أو الماوس. سيظهر بحجم مناسب بجانب اسم المعلم أسفل البطاقة.</p><div class="grid"><div><label>اسم رائد/ة النشاط</label><input id="leader" value="فواز المقاطي"></div><div><label>تاريخ اعتماد المعلم (هجري)</label><input id="teacherSignDate"></div><div><label>تاريخ اعتماد رائد النشاط (هجري)</label><input id="leaderSignDate"></div></div></div>
+<div class="card"><button id="pdf">طباعة / حفظ PDF</button><button class="secondary" id="png">تحميل صورة PNG</button><button id="saveTeacher">حفظ اسم المعلم على الجهاز</button><p id="status" role="status"></p></div>
+<div class="preview"><h2>معاينة البطاقة</h2><div id="paper"><div class="paper-head"><div class="ministry">وزارة التعليم<br>إدارة تعليم مكة المكرمة<br>مدرسة ابن خلدون الابتدائية وخزيمة بن ثابت المتوسطة</div><div class="logo">وزارة التعليم<br><small style="font-size:12px">Ministry of Education</small></div></div><div class="paper-title">بطاقة تنفيذ برنامج نشاط طلابي*</div><table class="report"><tbody>
+<tr><td class="key">اسم البرنامج</td><td class="value" id="p-program"></td></tr><tr><td class="key">المجال</td><td id="p-domain"></td></tr><tr><td class="key">عدد حصص البرنامج</td><td id="p-lessons"></td></tr><tr><td class="key">الفصل الدراسي</td><td id="p-semester"></td></tr>
+<tr><td class="key">بداية التنفيذ</td><td><div class="dates"><span>اليوم: <b id="p-startDay"></b></span><span>الأسبوع: <b id="p-week1"></b></span><span>التاريخ: <b id="p-startDate"></b> هـ</span></div></td></tr>
+<tr><td class="key">نهاية التنفيذ</td><td><div class="dates"><span>اليوم: <b id="p-endDay"></b></span><span>الأسبوع: <b id="p-week2"></b></span><span>التاريخ: <b id="p-endDate"></b> هـ</span></div></td></tr>
+<tr><td class="key">الصف</td><td id="p-grade"></td></tr><tr><td class="key">المعلم/ة المنفذ/ة</td><td id="p-teacher"></td></tr><tr><td class="key">عدد الطلبة المشاركين</td><td id="p-students"></td></tr><tr><td class="key">عدد الطلبة المشاركين من ذوي الإعاقة</td><td id="p-disability"></td></tr>
+<tr class="tall"><td class="key">عدد أولياء الأمور المشاركين في البرنامج</td><td><div id="p-parents"></div><div style="font-size:13px">عند تنفيذ المشاركة عبر منصة مدرستي، أيقونة التنفيذ: <span id="p-icons"></span></div></td></tr>
+<tr class="tall"><td class="key">عدد الشراكات المجتمعية</td><td><span id="p-partners"></span> <span style="margin-right:20px">أسماء الشراكات المجتمعية: <span id="p-partnerNames"></span></span></td></tr><tr class="tall"><td class="key">ملاحظات</td><td id="p-notes"></td></tr></tbody></table>
+<div class="signatures"><div><b>المعلم/ة المنفذ/ة</b><div>الاسم: <span id="p-teacher2"></span></div><div>التاريخ: <span id="p-teacherSignDate"></span></div><div class="signature-line">التوقيع: <img id="p-signature" class="sig-image" alt=""></div></div><div><b>رائد/ة النشاط</b><div>الاسم: <span id="p-leader"></span></div><div>التاريخ: <span id="p-leaderSignDate"></span></div><div>التوقيع: __________________</div></div></div><div class="footnote">* يتم تعبئة هذه البطاقة عند استكمال الحصص المخصصة للبرنامج وفق ما ورد للبرنامج من حصص في دليل الخطط الدراسية / الإصدار السادس.</div><div class="footer">وزارة التعليم — بطاقة تنفيذ برنامج نشاط طلابي</div></div></div></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script>
+const $=id=>document.getElementById(id),TEACHERS=["خالد العماري","محمد غالي البشري","متعب المعبدي","فهد السلمي","إبراهيم الحازمي","رامي غازي الحازمي","عبدالله اللحياني","عدنان جمعة الصبحي","ياسر نويمي العتيبي","عبدالمجيد غازي العتيبي","سلطان الجريبي","محمد حمود المجنوني","طلال حامد المجنوني","بدر ثابت الحربي","عبدالرحمن هاشم الصعب","أحمد الفهمي","نايف الفاهمي","مجدي حميد الخطابي","فواز مطر العتيبي","أحمد بخيت الحربي"],DOMAINS={
 "العلوم والتقنية":["تطبيقات STEM","التصاميم العلمية التقنية","مدن المستقبل","رواد فضاء المستقبل","الذكاء الاصطناعي","تحدي إنترنت الأشياء"],
 "المواطنة والحياة":["التطوع الطلابي","مهارات طموحة","قيمنا حياة"],
 "الثقافة والفنون":["الفن السابع (السينما)","حدائق الفن","الأزياء السعودية","الثقافة الإعلامية","تصاميم تراثية معاصرة","الفنون المسرحية","البرنامج الموسيقي (الأناشيد الوطنية)","حكايات مرئية"],
@@ -265,15 +136,27 @@ $("link").onclick=async()=>{
   const u=location.origin+location.pathname+"?"+p;
   try{await navigator.clipboard.writeText(u);msg("تم نسخ الرابط.")}catch(e){prompt("انسخ الرابط:",u)}
 };
-async function shot(){
-  const el=$("sheet"),old=el.style.transform;el.style.transform="none";$("pw").style.height="auto";
-  try{await document.fonts.ready;return await html2canvas(el,{scale:2,backgroundColor:"#fff",useCORS:true})}
-  finally{el.style.transform=old;fit()}
-}
-const fname=()=>"تقرير-"+($("name").value.trim()||"نشاط");
-$("png").onclick=async()=>{msg("جارٍ إنشاء الصورة…");try{const c=await shot();const a=document.createElement("a");a.download=fname()+".png";a.href=c.toDataURL("image/png");a.click();msg("تم إنشاء الصورة.")}catch(e){msg("تعذّر إنشاء الصورة.")}};
-$("pdf").onclick=async()=>{msg("جارٍ إنشاء PDF…");try{const c=await shot();const {jsPDF}=window.jspdf;const d=new jsPDF({unit:"mm",format:"a4"});d.addImage(c.toDataURL("image/jpeg",.95),"JPEG",0,0,210,297);d.save(fname()+".pdf");msg("تم إنشاء PDF.")}catch(e){msg("تعذّر إنشاء PDF.")}};
-render();
-</script>
-</body>
-</html>
+const days=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس'],icons=['بنك الإثراءات','التطوير الذاتي','قيمنا الغالية','نادي القراءة'];const ordinal=['الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي عشر','الثاني عشر','الثالث عشر','الرابع عشر','الخامس عشر','السادس عشر','السابع عشر','الثامن عشر','التاسع عشر'];
+$('teacher').innerHTML='<option value="">اختر المعلم</option>'+TEACHERS.map(t=>'<option>'+t+'</option>').join('');$('teacher').value=localStorage.getItem('reportsTeacher')||'';
+$('grade').innerHTML=['الأول','الثاني','الثالث','الرابع','الخامس','السادس'].map(x=>'<option>'+x+' الابتدائي</option>').join('')+['الأول','الثاني','الثالث'].map(x=>'<option>'+x+' المتوسط</option>').join('');
+$('week').innerHTML=ordinal.map((x,i)=>'<option value="'+(i+1)+'">الأسبوع '+x+'</option>').join('');
+['startDay','endDay'].forEach(id=>$(id).innerHTML=days.map(d=>'<option>'+d+'</option>').join(''));$('endDay').value='الخميس';
+$('domain').innerHTML=Object.keys(DOMAINS).map(d=>'<option>'+d+'</option>').join('');
+function programs(){$('program').innerHTML=(DOMAINS[$('domain').value]||[]).map(p=>'<option>'+p+'</option>').join('')+'<option value="__other">برنامج آخر</option>';other()}
+function other(){$('otherProgram').style.display=$('program').value==='__other'?'block':'none'}
+$('domain').onchange=()=>{programs();render()};$('program').onchange=()=>{other();render()};programs();
+$('icons').innerHTML=icons.map(x=>'<label><input type="checkbox" value="'+x+'">'+x+'</label>').join('');
+// Week starts are anchored to the attached Makkah/Jeddah/Taif school calendar (first semester 30 Aug 2026; second semester 17 Jan 2027).
+// Hijri dates are computed via the browser's Umm al-Qura calendar and remain editable for local calendar adjustments.
+const anchor={1:'2026-08-30',2:'2027-01-17'};const holidayWeeks={1:new Set([13]),2:new Set([])};
+function hijri(date){try{let parts=new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'Asia/Riyadh'}).formatToParts(date);let val=k=>parts.find(p=>p.type===k)?.value||'';return val('year')+'/'+val('month')+'/'+val('day')}catch{return ''}}
+function weekDates(){const sem=+$('semester').value,w=+$('week').value;let d=new Date(anchor[sem]+'T12:00:00+03:00');d.setUTCDate(d.getUTCDate()+(w-1)*7);if(holidayWeeks[sem].has(w))$('status').textContent='هذا الأسبوع يتضمن إجازة وفق التقويم؛ تحقق من تاريخ التنفيذ.';else $('status').textContent='';const end=new Date(d);end.setUTCDate(end.getUTCDate()+4);$('startDate').value=hijri(d);$('endDate').value=hijri(end);$('startDay').value='الأحد';$('endDay').value='الخميس';render()}
+const canvas=$('signature'),ctx=canvas.getContext('2d');let drawing=false,hasInk=false;
+function sizeCanvas(){const data=hasInk?canvas.toDataURL():null;canvas.width=canvas.clientWidth*devicePixelRatio;canvas.height=145*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);ctx.strokeStyle='#174ea6';ctx.lineWidth=2.3;ctx.lineCap='round';ctx.lineJoin='round';if(data){const im=new Image();im.onload=()=>ctx.drawImage(im,0,0,canvas.clientWidth,145);im.src=data}}sizeCanvas();
+function point(e){const r=canvas.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]}
+canvas.addEventListener('pointerdown',e=>{drawing=true;canvas.setPointerCapture(e.pointerId);const p=point(e);ctx.beginPath();ctx.moveTo(...p);ctx.lineTo(p[0]+.1,p[1]+.1);ctx.stroke();hasInk=true;render()});canvas.addEventListener('pointermove',e=>{if(!drawing)return;ctx.lineTo(...point(e));ctx.stroke();render()});['pointerup','pointercancel'].forEach(n=>canvas.addEventListener(n,()=>{drawing=false;render()}));
+$('clearSignature').onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);hasInk=false;render()};
+function render(){for(const id of ['teacher','grade','semester','domain','lessons','students','disability','parents','partners','partnerNames','notes','startDay','endDay','startDate','endDate','teacherSignDate','leaderSignDate','leader']){let p=$('p-'+id);if(p)p.textContent=id==='semester'?$('semester').selectedOptions[0].textContent:$(id).value} $('p-program').textContent=$('program').value==='__other'?$('otherProgram').value:$('program').value;$('p-week1').textContent=$('week').selectedOptions[0].textContent;$('p-week2').textContent=$('week').selectedOptions[0].textContent;$('p-teacher2').textContent=$('teacher').value;$('p-icons').textContent=[...document.querySelectorAll('#icons input:checked')].map(x=>x.value).join('، ');$('p-signature').src=hasInk?canvas.toDataURL('image/png'):''}
+document.querySelectorAll('input,select,textarea').forEach(e=>e.addEventListener('input',render));$('week').onchange=weekDates;$('semester').onchange=weekDates;$('saveTeacher').onclick=()=>{localStorage.setItem('reportsTeacher',$('teacher').value);$('status').textContent='تم حفظ اسم المعلم على الجهاز'};
+$('pdf').onclick=()=>{render();window.print()};$('png').onclick=async()=>{render();if(!window.html2canvas){$('status').textContent='تعذر تحميل مكتبة الصور';return}const c=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff'});const a=document.createElement('a');a.download='بطاقة-تنفيذ-برنامج-نشاط-طلابي.png';a.href=c.toDataURL('image/png');a.click()};weekDates();
+</script></body></html>
