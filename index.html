@@ -1100,7 +1100,7 @@ const $=id=>document.getElementById(id),TEACHERS=["خالد العماري","م�
 "الرياضة والصحة":["مهارات الرياضة الجماعية","مهارات الرياضات الفردية","مهارات رياضات الدفاع عن النفس","مهارات الرياضات الإلكترونية والترفيه","مهارات الرياضات الذهنية","مهارات الأولمبياد الرياضي"]};
 const days=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس'],icons=['بنك الإثراءات','التطوير الذاتي','قيمنا الغالية','نادي القراءة'];const ordinal=['الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي عشر','الثاني عشر','الثالث عشر','الرابع عشر','الخامس عشر','السادس عشر','السابع عشر','الثامن عشر','التاسع عشر'];
 $('teacher').innerHTML='<option value="">اختر المعلم</option>'+TEACHERS.map(t=>'<option>'+t+'</option>').join('');$('teacher').value=localStorage.getItem('reportsTeacher')||'';
-$('grade').innerHTML=['الأول','الثاني','الثالث','الرابع','الخامس','السادس'].map(x=>'<option>'+x+' الابتدائي</option>').join('')+['الأول','الثاني','الثالث'].map(x=>'<option>'+x+' المتوسط</option>').join('');
+$('grade').innerHTML=['الرابع','الخامس','السادس'].map(x=>'<option>'+x+' الابتدائي</option>').join('')+['الأول','الثاني','الثالث'].map(x=>'<option>'+x+' المتوسط</option>').join('');
 $('week').innerHTML=ordinal.map((x,i)=>'<option value="'+(i+1)+'">الأسبوع '+x+'</option>').join('');
 ['startDay','endDay'].forEach(id=>$(id).innerHTML=days.map(d=>'<option>'+d+'</option>').join(''));$('endDay').value='الخميس';
 $('domain').innerHTML=Object.keys(DOMAINS).map(d=>'<option>'+d+'</option>').join('');
