@@ -1106,9 +1106,9 @@ $('week').innerHTML=ordinal.map((x,i)=>'<option value="'+(i+1)+'">الأسبوع
 ['startDay','endDay'].forEach(id=>$(id).innerHTML=days.map(d=>'<option>'+d+'</option>').join(''));$('endDay').value='الخميس';
 $('domain').innerHTML=Object.keys(DOMAINS).map(d=>'<option>'+d+'</option>').join('')+'<option value="__custom">✏️ اكتب اسم المجال</option>';
 function fieldValue(id){return ['teacher','grade','domain'].includes(id)&&$(id).value==='__custom'?$('custom_'+id).value.trim():$(id).value}
-function toggleCustom(id){$('custom_'+id).style.display=$(id).value==='__custom'?'block':'none'}
+function toggleCustom(id){const input=$('custom_'+id);input.style.display=$(id).value==='__custom'?'block':'none';if($(id).value==='__custom')input.focus()}
 ['teacher','grade','domain'].forEach(id=>{$(id).addEventListener('change',()=>{toggleCustom(id);render()});toggleCustom(id)});
-function programs(){$('program').innerHTML=(DOMAINS[$('domain').value]||[]).map(p=>'<option>'+p+'</option>').join('')+'<option value="__other">✏️ اكتب اسم البرنامج</option>';other()}
+function programs(){const previous=$('program').value;const items=DOMAINS[$('domain').value]||[];$('program').innerHTML=items.map(p=>'<option>'+p+'</option>').join('')+'<option value="__other">✏️ اكتب اسم البرنامج</option>';if(items.includes(previous)||previous==='__other')$('program').value=previous;else if(!items.length)$('program').value='__other';other()}
 function other(){$('otherProgram').style.display=$('program').value==='__other'?'block':'none'}
 $('domain').onchange=()=>{programs();render()};$('program').onchange=()=>{other();render()};programs();
 $('icons').innerHTML=icons.map(x=>'<label><input type="checkbox" value="'+x+'">'+x+'</label>').join('');
