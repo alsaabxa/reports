@@ -1169,58 +1169,38 @@ $('removeSchoolStamp').onclick=()=>{localStorage.removeItem('reportsSchoolStamp'
 function render(){for(const id of ['teacher','grade','semester','domain','lessons','students','disability','parents','partners','partnerNames','notes','startDay','endDay','startDate','endDate','teacherSignDate','leaderSignDate','leader']){let p=$('p-'+id);if(p)p.textContent=id==='semester'?$('semester').selectedOptions[0].textContent:fieldValue(id)} $('p-program').textContent=$('program').value==='__other'?$('otherProgram').value:$('program').value;const weekLabel=$('week').selectedOptions[0].textContent.replace(/^\s*الأسبوع\s*/,'').trim();$('p-week1').textContent=weekLabel;$('p-week2').textContent=weekLabel;$('p-teacher2').textContent=fieldValue('teacher');$('p-icons').innerHTML=icons.map(x=>{const checked=[...document.querySelectorAll('#icons input:checked')].some(el=>el.value===x);return '<div class="parent-option"><span>'+x+'</span><span class="tick-box">'+(checked?'✔':'○')+'</span></div>'}).join('');$('p-signature').src=hasInk?canvas.toDataURL('image/png'):'';const savedLeader=localStorage.getItem('reportsLeaderSignature:'+$('leader').value.trim());const useNew=!!savedLeader&&$('useApprovedLeaderSignature').checked;$('p-leaderSignature').src=useNew?savedLeader:'';$('p-leaderSignature').style.display=useNew?'inline-block':'none';$('defaultLeaderSignature').style.display=useNew?'none':'inline-block'}
 document.querySelectorAll('input,select,textarea').forEach(e=>e.addEventListener('input',()=>{if(e.id==='endDate'){if(!$('teacherSignDate').dataset.manual)$('teacherSignDate').value=e.value;if(!$('leaderSignDate').dataset.manual)$('leaderSignDate').value=e.value}if(e.id==='teacherSignDate'||e.id==='leaderSignDate')e.dataset.manual='1';render()}));$('week').onchange=weekDates;$('semester').onchange=weekDates;$('saveTeacher').onclick=()=>{localStorage.setItem('reportsTeacher',fieldValue('teacher'));$('status').textContent='تم حفظ اسم المعلم على الجهاز'};
 const ACTIVITY_UPLOAD_URL='https://script.google.com/macros/s/AKfycbw2e-EGN2e6WQ2mOwz3I2maadgzQzWAOX3Lchdl11_lMkhBKSWAcKof1zyg6_ul6fsmiw/exec?page=upload';
-const NASHAT_BRIDGE_URL='https://nashat-reports-bridge.alsaabxa.workers.dev';
 async function ensurePdfLibraries(){
- const load=src=>new Promise((resolve,reject)=>{
-  const script=document.createElement('script');script.src=src;script.async=true;
-  script.onload=resolve;script.onerror=()=>{script.remove();reject(new Error('تعذر تحميل '+src))};
-  document.head.appendChild(script);
- });
- const trySources=async(sources,check)=>{
-  if(check())return;
-  for(const src of sources){try{await load(src);if(check())return}catch(e){}}
-  throw new Error('تعذر تحميل مكتبة PDF. تحقق من اتصال الإنترنت أو حظر CDN في المتصفح');
- };
- await trySources([
-  'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
-  'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js'
- ],()=>typeof window.html2canvas==='function');
- await trySources([
-  'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js',
-  'https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js'
- ],()=>typeof window.jspdf?.jsPDF==='function');
+ const load=src=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>{s.remove();reject(new Error('تعذر تحميل المكتبة'))};document.head.appendChild(s)});
+ const sources=[
+  ['html2canvas',['https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js','https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js'],()=>typeof window.html2canvas==='function'],
+  ['jsPDF',['https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js','https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js'],()=>typeof window.jspdf?.jsPDF==='function']
+ ];
+ for(const [name,urls,check] of sources){if(check())continue;for(const url of urls){try{await load(url);if(check())break}catch(e){}}if(!check())throw new Error('تعذر تحميل '+name)}
 }
-
-$('sendActivity').textContent='إرسال التقرير إلى منصة النشاط';
+$('sendActivity').textContent='تجهيز PDF وفتح منصة النشاط';
 $('sendActivity').onclick=async()=>{
  const btn=$('sendActivity'),status=$('status');
- const teacher=(fieldValue('teacher')||'').trim();
- const className=(fieldValue('grade')||'').trim();
+ const teacher=(fieldValue('teacher')||'المعلم').trim()||'المعلم';
  const uploadUrl=new URL(ACTIVITY_UPLOAD_URL);
  uploadUrl.searchParams.set('teacher',teacher);
- uploadUrl.searchParams.set('className',className);
+ uploadUrl.searchParams.set('className',fieldValue('grade')||'');
  uploadUrl.searchParams.set('program',fieldValue('program')||'');
  uploadUrl.searchParams.set('domain',fieldValue('domain')||'');
  uploadUrl.searchParams.set('date',$('startDate').value||'');
  uploadUrl.searchParams.set('fromReport','1');
- const fallback=()=>{const a=document.createElement('a');a.href=uploadUrl.toString();a.target='_blank';a.rel='noopener';a.textContent='فتح صفحة الرفع اليدوي';status.append(' ',a)};
- if(!teacher||!className){status.textContent='يرجى اختيار اسم المعلم والفصل قبل الإرسال.';return}
- btn.disabled=true;status.textContent='جارٍ إعداد التقرير وإرساله...';
+ const win=window.open(uploadUrl.toString(),'_blank');
+ const manualLink=()=>{const a=document.createElement('a');a.href=uploadUrl.toString();a.target='_blank';a.rel='noopener';a.textContent='فتح صفحة رفع التقرير';status.append(' ',a)};
+ btn.disabled=true;status.textContent='جارٍ تجهيز PDF للتنزيل...';
  try{
-  render();
-  await ensurePdfLibraries();
-  const canvasPdf=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});
+  render();await ensurePdfLibraries();
+  const canvas=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});
   const doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-  doc.addImage(canvasPdf.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,297);
-  const pdfBase64=doc.output('datauristring').split(',')[1];
-  const response=await fetch(NASHAT_BRIDGE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({teacher,className,pdfBase64})});
-  const result=await response.json().catch(()=>({ok:false,error:'استجابة غير صالحة من الخادم'}));
-  if(!response.ok||!result.ok)throw new Error(result.error||'تعذر حفظ التقرير');
-  status.textContent='تم إرسال التقرير وحفظه في منصة النشاط بنجاح.';
- }catch(err){
-  status.textContent='تعذر الإرسال المباشر: '+(err.message||'خطأ في الاتصال')+'. لم يتم تأكيد حفظ التقرير.';
-  fallback();
- }finally{btn.disabled=false}
+  doc.addImage(canvas.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,297);
+  doc.save('بطاقة تنفيذ برنامج نشاط طلابي - '+teacher.replace(/[\\/:*?"<>|]/g,'_')+'.pdf');
+  status.textContent='تم تنزيل PDF. ارفعه من صفحة منصة النشاط.';
+  if(!win)manualLink();
+ }catch(e){status.textContent='تعذر تجهيز PDF: '+(e.message||'خطأ غير معروف')+'. يمكنك استخدام طباعة / حفظ PDF.';manualLink()}
+ finally{btn.disabled=false}
 };
 $('pdf').onclick=()=>{render();window.print()};$('png').onclick=async()=>{render();if(!window.html2canvas){$('status').textContent='تعذر تحميل مكتبة الصور';return}const c=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});const a=document.createElement('a');a.download='بطاقة-تنفيذ-برنامج-نشاط-طلابي.png';a.href=c.toDataURL('image/png');a.click()};weekDates();restoreSignature();
 </script></body></html>
