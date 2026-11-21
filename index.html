@@ -1170,25 +1170,28 @@ function render(){for(const id of ['teacher','grade','semester','domain','lesson
 document.querySelectorAll('input,select,textarea').forEach(e=>e.addEventListener('input',()=>{if(e.id==='endDate'){if(!$('teacherSignDate').dataset.manual)$('teacherSignDate').value=e.value;if(!$('leaderSignDate').dataset.manual)$('leaderSignDate').value=e.value}if(e.id==='teacherSignDate'||e.id==='leaderSignDate')e.dataset.manual='1';render()}));$('week').onchange=weekDates;$('semester').onchange=weekDates;$('saveTeacher').onclick=()=>{localStorage.setItem('reportsTeacher',fieldValue('teacher'));$('status').textContent='تم حفظ اسم المعلم على الجهاز'};
 const ACTIVITY_UPLOAD_URL='https://script.google.com/macros/s/AKfycbw2e-EGN2e6WQ2mOwz3I2maadgzQzWAOX3Lchdl11_lMkhBKSWAcKof1zyg6_ul6fsmiw/exec?page=upload';
 $('sendActivity').onclick=async()=>{
- const name=fieldValue('teacher').trim();
- if(!name){$('status').textContent='اختر اسم المعلم أولاً';$('teacher').focus();return}
- if(!window.html2canvas){$('status').textContent='تعذر تحميل مكتبة إنشاء PDF';return}
- const btn=$('sendActivity');btn.disabled=true;$('status').textContent='جارٍ تجهيز ملف PDF باسم المعلم...';
- // Open the destination synchronously on the user click, avoiding mobile popup blocking.
+ const btn=$('sendActivity');
+ const name=(fieldValue('teacher')||'المعلم').trim()||'المعلم';
+ // Open the upload destination immediately from the click (before any asynchronous work).
  const uploadWindow=window.open(ACTIVITY_UPLOAD_URL,'_blank');
+ if(!uploadWindow){
+  $('status').innerHTML='قد يمنع المتصفح فتح منصة النشاط تلقائيًا. <a href="'+ACTIVITY_UPLOAD_URL+'" target="_blank" rel="noopener">اضغط هنا لفتح منصة النشاط</a>.';
+ }else{
+  $('status').textContent='تم فتح منصة النشاط. جارٍ إعداد التقرير للتنزيل...';
+ }
+ btn.disabled=true;
  try{
   render();
+  if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('مكتبة إنشاء PDF غير متاحة');
   const canvasPdf=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});
-  const jsPDFClass=(window.jspdf&&window.jspdf.jsPDF);
-  if(!jsPDFClass)throw new Error('تعذر تحميل مكتبة PDF');
-  const doc=new jsPDFClass({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+  const doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
   doc.addImage(canvasPdf.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,297);
   const filename='بطاقة تنفيذ برنامج نشاط طلابي - '+name.replace(/[\\/:*?"<>|]/g,'_')+'.pdf';
   doc.save(filename);
-  $('status').textContent='تم تنزيل PDF باسم المعلم. اختر الملف في صفحة منصة النشاط لإكمال الرفع؛ الإرسال التلقائي غير مفعّل بعد.';
-  if(!uploadWindow)window.location.href=ACTIVITY_UPLOAD_URL;
- }catch(err){$('status').textContent='تعذر تجهيز PDF: '+(err.message||err)}
- finally{btn.disabled=false}
+  $('status').innerHTML='تم تنزيل PDF. ارفعه من صفحة منصة النشاط.'+(!uploadWindow?' <a href="'+ACTIVITY_UPLOAD_URL+'" target="_blank" rel="noopener">فتح صفحة الرفع</a>':'');
+ }catch(err){
+  $('status').innerHTML='فُتحت صفحة منصة النشاط، لكن تعذر تنزيل PDF تلقائيًا. استخدم زر «طباعة / حفظ PDF» ثم ارفعه من صفحة النشاط. <a href="'+ACTIVITY_UPLOAD_URL+'" target="_blank" rel="noopener">فتح صفحة الرفع</a>';
+ }finally{btn.disabled=false}
 };
 $('pdf').onclick=()=>{render();window.print()};$('png').onclick=async()=>{render();if(!window.html2canvas){$('status').textContent='تعذر تحميل مكتبة الصور';return}const c=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});const a=document.createElement('a');a.download='بطاقة-تنفيذ-برنامج-نشاط-طلابي.png';a.href=c.toDataURL('image/png');a.click()};weekDates();restoreSignature();
 </script></body></html>
