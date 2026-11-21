@@ -1170,6 +1170,27 @@ function render(){for(const id of ['teacher','grade','semester','domain','lesson
 document.querySelectorAll('input,select,textarea').forEach(e=>e.addEventListener('input',()=>{if(e.id==='endDate'){if(!$('teacherSignDate').dataset.manual)$('teacherSignDate').value=e.value;if(!$('leaderSignDate').dataset.manual)$('leaderSignDate').value=e.value}if(e.id==='teacherSignDate'||e.id==='leaderSignDate')e.dataset.manual='1';render()}));$('week').onchange=weekDates;$('semester').onchange=weekDates;$('saveTeacher').onclick=()=>{localStorage.setItem('reportsTeacher',fieldValue('teacher'));$('status').textContent='تم حفظ اسم المعلم على الجهاز'};
 const ACTIVITY_UPLOAD_URL='https://script.google.com/macros/s/AKfycbw2e-EGN2e6WQ2mOwz3I2maadgzQzWAOX3Lchdl11_lMkhBKSWAcKof1zyg6_ul6fsmiw/exec?page=upload';
 const NASHAT_BRIDGE_URL='https://nashat-reports-bridge.alsaabxa.workers.dev';
+async function ensurePdfLibraries(){
+ const load=src=>new Promise((resolve,reject)=>{
+  const script=document.createElement('script');script.src=src;script.async=true;
+  script.onload=resolve;script.onerror=()=>{script.remove();reject(new Error('تعذر تحميل '+src))};
+  document.head.appendChild(script);
+ });
+ const trySources=async(sources,check)=>{
+  if(check())return;
+  for(const src of sources){try{await load(src);if(check())return}catch(e){}}
+  throw new Error('تعذر تحميل مكتبة PDF. تحقق من اتصال الإنترنت أو حظر CDN في المتصفح');
+ };
+ await trySources([
+  'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+  'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js'
+ ],()=>typeof window.html2canvas==='function');
+ await trySources([
+  'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js',
+  'https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js'
+ ],()=>typeof window.jspdf?.jsPDF==='function');
+}
+
 $('sendActivity').textContent='إرسال التقرير إلى منصة النشاط';
 $('sendActivity').onclick=async()=>{
  const btn=$('sendActivity'),status=$('status');
@@ -1187,7 +1208,7 @@ $('sendActivity').onclick=async()=>{
  btn.disabled=true;status.textContent='جارٍ إعداد التقرير وإرساله...';
  try{
   render();
-  if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('مكتبة إنشاء PDF غير متاحة');
+  await ensurePdfLibraries();
   const canvasPdf=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});
   const doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
   doc.addImage(canvasPdf.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,297);
