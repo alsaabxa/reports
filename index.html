@@ -1173,9 +1173,16 @@ $('sendActivity').onclick=async()=>{
  const btn=$('sendActivity');
  const name=(fieldValue('teacher')||'المعلم').trim()||'المعلم';
  // Open the upload destination immediately from the click (before any asynchronous work).
- const uploadWindow=window.open(ACTIVITY_UPLOAD_URL,'_blank');
+ const uploadUrl=new URL(ACTIVITY_UPLOAD_URL);
+ uploadUrl.searchParams.set('teacher',name);
+ uploadUrl.searchParams.set('className',fieldValue('grade')||'');
+ uploadUrl.searchParams.set('program',fieldValue('program')||'');
+ uploadUrl.searchParams.set('domain',fieldValue('domain')||'');
+ uploadUrl.searchParams.set('date',$('startDate').value||'');
+ uploadUrl.searchParams.set('fromReport','1');
+ const uploadWindow=window.open(uploadUrl.toString(),'_blank');
  if(!uploadWindow){
-  $('status').innerHTML='قد يمنع المتصفح فتح منصة النشاط تلقائيًا. <a href="'+ACTIVITY_UPLOAD_URL+'" target="_blank" rel="noopener">اضغط هنا لفتح منصة النشاط</a>.';
+  $('status').innerHTML='قد يمنع المتصفح فتح منصة النشاط تلقائيًا. <a href="'+uploadUrl.toString()+'" target="_blank" rel="noopener">اضغط هنا لفتح منصة النشاط</a>.';
  }else{
   $('status').textContent='تم فتح منصة النشاط. جارٍ إعداد التقرير للتنزيل...';
  }
@@ -1188,9 +1195,9 @@ $('sendActivity').onclick=async()=>{
   doc.addImage(canvasPdf.toDataURL('image/jpeg',0.93),'JPEG',0,0,210,297);
   const filename='بطاقة تنفيذ برنامج نشاط طلابي - '+name.replace(/[\\/:*?"<>|]/g,'_')+'.pdf';
   doc.save(filename);
-  $('status').innerHTML='تم تنزيل PDF. ارفعه من صفحة منصة النشاط.'+(!uploadWindow?' <a href="'+ACTIVITY_UPLOAD_URL+'" target="_blank" rel="noopener">فتح صفحة الرفع</a>':'');
+  $('status').innerHTML='تم تنزيل PDF. ارفعه من صفحة منصة النشاط.'+(!uploadWindow?' <a href="'+uploadUrl.toString()+'" target="_blank" rel="noopener">فتح صفحة الرفع</a>':'');
  }catch(err){
-  $('status').innerHTML='فُتحت صفحة منصة النشاط، لكن تعذر تنزيل PDF تلقائيًا. استخدم زر «طباعة / حفظ PDF» ثم ارفعه من صفحة النشاط. <a href="'+ACTIVITY_UPLOAD_URL+'" target="_blank" rel="noopener">فتح صفحة الرفع</a>';
+  $('status').innerHTML='فُتحت صفحة منصة النشاط، لكن تعذر تنزيل PDF تلقائيًا. استخدم زر «طباعة / حفظ PDF» ثم ارفعه من صفحة النشاط. <a href="'+uploadUrl.toString()+'" target="_blank" rel="noopener">فتح صفحة الرفع</a>';
  }finally{btn.disabled=false}
 };
 $('pdf').onclick=()=>{render();window.print()};$('png').onclick=async()=>{render();if(!window.html2canvas){$('status').textContent='تعذر تحميل مكتبة الصور';return}const c=await html2canvas($('paper'),{scale:2,backgroundColor:'#fff',useCORS:true});const a=document.createElement('a');a.download='بطاقة-تنفيذ-برنامج-نشاط-طلابي.png';a.href=c.toDataURL('image/png');a.click()};weekDates();restoreSignature();
